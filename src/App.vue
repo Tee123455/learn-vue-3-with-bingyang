@@ -1,80 +1,63 @@
 <template>
   <h1>{{ message }}</h1>
-  <div>
-    <form @submit.prevent="register">
-      <div>
-        <label for="email">Email:</label>
-        <input
-          id="email"
-          v-model="email"
-          type="email"
-          placeholder="Enter your email"
-        />
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input
-          id="password"
-          v-model="password"
-          type="password"
-          placeholder="Create a password"
-        />
-      </div>
-      <button type="submit" :disabled="!isFormValid">Register</button>
-    </form>
-  </div>
-  <hr />
   <div class="card">
-    <h2>Name: {{ wizard1.name }}</h2>
-    <h2>Wand: {{ wizard1.wand }}</h2>
-    <h2>Age: {{ wizard1.age }}</h2>
-    <button @click="wizard1.name = wizard1.name.toUpperCase()">
-      Change name to upper case
-    </button>
-    <button @click="wizard1.wand.core = 'Unicorn hair'">
-      Change wand core
-    </button>
-    <button @click="wizard1.age = 20">Change age</button>
+    <h2 ref="title">This is the App component.</h2>
+    <h2>Number: {{ number }}</h2>
+    <button @click="number++">Increment number by one</button>
+    <button @click="isShow = !isShow">Toggle component1</button>
+    <Component1 v-if="isShow"></Component1>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, watchEffect } from 'vue'
-let message = ref('Hello, watchEffect!')
-const email = ref('')
-const password = ref('')
-const isFormValid = ref(false)
+import {
+  ref,
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+  watch
+} from 'vue'
 
-watchEffect(() => { 
-  console.log('watchEffect')  
-  const hasEmail = email.value.length > 0
-  const hasPassword = password.value.length > 0
-  isFormValid.value = hasEmail && hasPassword
+import Component1 from './Component1.vue'
+
+let message = ref('Hello, Lifecycle Hooks!')
+
+let number = ref(1)
+let title = ref(null)
+
+let isShow = ref(true)
+
+console.log('App component is setup.')
+
+onBeforeMount(() => {
+  console.log('App component is before mount.')
+  console.log(number.value) 
+  console.log(title.value)
 })
-
-const register = () => {
-  alert('Registration successful!')
-}
-
-let wizard1 = ref({
-  id: 1001,
-  name: 'Harry Potter',
-  house: 'Gryffindor',
-  age: 17,
-  wand: {
-    core: 'Phoenix feather',
-    wood: 'Holly'
-  }
+onMounted(() => {
+  console.log('App component is mounted.')
+  console.log(title.value) 
 })
-
-watchEffect(() => {
-  console.log(wizard1.value.name, wizard1.value.wand.core)
+onBeforeUpdate(() => {
+  console.log('App component is before update.')
 })
-
-watchEffect(() => {
-  console.log(wizard1.value)
+onUpdated(() => {
+  console.log('App component is updated.')
+})
+onBeforeUnmount(() => {
+  console.log('App component is before unmount.')
+})
+onUnmounted(() => {
+  console.log('App component is unmounted.')
+})
+watch(number, () => {
+  console.log('number changes!')
 })
 </script>
+
 <style scoped>
 .card {
   background-color: purple;
