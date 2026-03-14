@@ -1,5 +1,12 @@
 <template>
-  <BlogPost v-for="post in posts" :key="post.id" v-bind="post" @delete-blog-post="processDeletion"> </BlogPost>
+  <BlogPost
+    v-for="post in posts"
+    :key="post.id"
+    :id="post.id"
+    v-model:blogPostTitle="post.blogPostTitle"
+    v-model:blogPostContent="post.blogPostContent"
+    @delete-blog-post="processDeletion"
+  ></BlogPost>
 </template>
 
 <script setup>
@@ -32,6 +39,7 @@ let posts = ref([
       'It’s no secret that the Harry Potter series is a global phenomenon, having been translated into over 80 languages to date....'
   }
 ])
+
 function processDeletion(id) {
   let index = posts.value.findIndex((item) => item.id == id)
   posts.value.splice(index, 1)
