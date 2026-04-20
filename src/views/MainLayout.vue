@@ -1,6 +1,5 @@
 <template>
-    <Login></Login>
-    <div class="app">
+    <div class="main-layout">
         <Navigation></Navigation>
         <router-view></router-view>
     </div>
@@ -8,11 +7,10 @@
 
 <script setup>
 import Navigation from '@/components/Navigation.vue';
-import Login from '@/components/Login.vue';
 </script>
 
 <style lang="scss" scoped>
-.app {
+.main-layout {
     display: flex;
     flex-direction: column;
     gap: 1rem;
